@@ -1,28 +1,31 @@
 # Notes API
 
-A simple Notes API built using Node.js and Express.
+A RESTful Notes API built with Node.js, Express, MongoDB, and Mongoose.
 
 ## Features
 
-* Get all notes
-* Get note by ID
 * Create a note
+* Get all notes
+* Get a note by ID
 * Update a note
 * Delete a note
-* Custom logger middleware
-* Environment variables using dotenv
+* MongoDB database integration
+* Custom middleware
+* Environment variable configuration
 
-## Technologies
+## Tech Stack
 
 * Node.js
 * Express.js
-* dotenv
+* MongoDB
+* Mongoose
+* Dotenv
 
 ## Installation
 
-Install dependencies:
-
 ```bash
+git clone https://github.com/Mayank-Rajora/NOTES-API.git
+cd notes-api
 npm install
 ```
 
@@ -30,73 +33,46 @@ Create a `.env` file:
 
 ```env
 PORT=3000
+MONGO_URI=your_mongodb_connection_string
 ```
 
-Start the server:
+Run the server:
 
 ```bash
-node script.js
+node server.js
+```
+
+For development:
+
+```bash
+npx nodemon server.js
 ```
 
 ## API Endpoints
 
-### Get all notes
+| Method | Endpoint     | Description    |
+| ------ | ------------ | -------------- |
+| GET    | `/notes`     | Get all notes  |
+| GET    | `/notes/:id` | Get note by ID |
+| POST   | `/notes`     | Create a note  |
+| PUT    | `/notes/:id` | Update a note  |
+| DELETE | `/notes/:id` | Delete a note  |
 
-```http
-GET /notes
-```
-
-### Get note by ID
-
-```http
-GET /notes/:id
-```
-
-### Create note
-
-```http
-POST /notes
-```
-
-Body:
+### Example Request
 
 ```json
 {
-  "title": "Learn Express"
+  "title": "Learn MongoDB"
 }
 ```
 
-### Update note
-
-```http
-PUT /notes/:id
-```
-
-Body:
+### Example Response
 
 ```json
 {
-  "title": "Updated Note"
+  "_id": "684a5d1f3f92a84d7b7a1234",
+  "title": "Learn MongoDB",
+  "__v": 0
 }
 ```
 
-### Delete note
-
-```http
-DELETE /notes/:id
-```
-
-## Project Structure
-
-```text
-notes-api/
-│
-├── controllers/
-├── routes/
-├── middleware/
-├── data/
-├── .env
-├── .gitignore
-├── package.json
-└── script.js
-```
