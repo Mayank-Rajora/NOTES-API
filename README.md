@@ -4,14 +4,18 @@ A RESTful Notes API built with Node.js, Express, MongoDB, and Mongoose.
 
 ## Features
 
-* Create a note
-* Get all notes
-* Get a note by ID
-* Update a note
-* Delete a note
-* MongoDB database integration
-* Custom middleware
-* Environment variable configuration
+* User Registration
+* User Login
+* Password Hashing with bcrypt
+* JWT Authentication
+* Protected Routes
+* User Profile Endpoint
+* Create Notes
+* Read Notes
+* Update Notes
+* Delete Notes
+* Multi-User Note Ownership
+* Authorization (users can only access their own notes)
 
 ## Tech Stack
 
@@ -19,13 +23,22 @@ A RESTful Notes API built with Node.js, Express, MongoDB, and Mongoose.
 * Express.js
 * MongoDB
 * Mongoose
-* Dotenv
+* JWT (JSON Web Tokens)
+* bcryptjs
+* dotenv
 
 ## Installation
 
+Clone the repository:
+
 ```bash
-git clone https://github.com/Mayank-Rajora/NOTES-API.git
+git clone <repository-url>
 cd notes-api
+```
+
+Install dependencies:
+
+```bash
 npm install
 ```
 
@@ -34,45 +47,108 @@ Create a `.env` file:
 ```env
 PORT=3000
 MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
 ```
 
-Run the server:
+Start the server:
 
 ```bash
-node server.js
-```
-
-For development:
-
-```bash
-npx nodemon server.js
+npm run dev
 ```
 
 ## API Endpoints
 
-| Method | Endpoint     | Description    |
-| ------ | ------------ | -------------- |
-| GET    | `/notes`     | Get all notes  |
-| GET    | `/notes/:id` | Get note by ID |
-| POST   | `/notes`     | Create a note  |
-| PUT    | `/notes/:id` | Update a note  |
-| DELETE | `/notes/:id` | Delete a note  |
+### Authentication
 
-### Example Request
+#### Register User
 
-```json
-{
-  "title": "Learn MongoDB"
-}
+```http
+POST /auth/register
 ```
 
-### Example Response
+#### Login User
 
-```json
-{
-  "_id": "684a5d1f3f92a84d7b7a1234",
-  "title": "Learn MongoDB",
-  "__v": 0
-}
+```http
+POST /auth/login
+```
+
+#### Get Profile
+
+```http
+GET /auth/profile
+```
+
+Requires JWT token.
+
+---
+
+### Notes
+
+#### Get All Notes
+
+```http
+GET /notes
+```
+
+Returns only notes belonging to the authenticated user.
+
+#### Get Note By ID
+
+```http
+GET /notes/:id
+```
+
+#### Create Note
+
+```http
+POST /notes
+```
+
+#### Update Note
+
+```http
+PUT /notes/:id
+```
+
+#### Delete Note
+
+```http
+DELETE /notes/:id
+```
+
+All Notes routes require authentication.
+
+## Security Features
+
+* Passwords are hashed before storage.
+* JWT-based authentication.
+* Protected routes using middleware.
+* Ownership-based authorization.
+* Users cannot access, update, or delete notes belonging to other users.
+
+## Project Structure
+
+```text
+notes-api/
+│
+├── controllers/
+├── middleware/
+├── models/
+├── routes/
+├── config/
+├── .env
+├── server.js
+└── package.json
+```
+
+## Future Improvements
+
+* File Uploads
+* Pagination
+* Search and Filtering
+* Refresh Tokens
+* Full-Stack Frontend Integration
+
+```
 ```
 
