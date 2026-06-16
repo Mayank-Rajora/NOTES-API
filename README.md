@@ -32,7 +32,7 @@ A RESTful Notes API built with Node.js, Express, MongoDB, and Mongoose.
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Mayank-Rajora/NOTES-API.git
 cd notes-api
 ```
 
