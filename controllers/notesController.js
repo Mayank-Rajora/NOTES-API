@@ -2,7 +2,9 @@
 const Note = require("../models/Note")
 const getAllNotes = async (req,res) =>{
     try{
-        const notes = await Note.find();
+        const notes = await Note.find({
+            owner:req.user.id
+        });
         res.json(notes);
     }
     catch(error){
@@ -16,6 +18,11 @@ const getAllNotes = async (req,res) =>{
 const getNoteById = async (req,res) =>{
     try{
         const note = await Note.findById(req.params.id);
+        if(note.owner.toString()!== req.user.id){
+            return res.status(403).json({
+                message:"Access Denied"
+            });
+        }
         if(!note){
             return res.status(404).json({
                 message:"Note not found"
@@ -37,7 +44,8 @@ const getNoteById = async (req,res) =>{
 const createNote = async (req,res) =>{
     try{
         const note = await Note.create({
-            title : req.body.title
+            title : req.body.title,
+            owner : req.user.id
         });
         res.status(201).json(note);
     }catch(error){
@@ -53,6 +61,11 @@ const createNote = async (req,res) =>{
 const updateNote = async (req,res)=>{
     try{
         const note = await Note.findById(req.params.id);
+        if(note.owner.toString()!== req.user.id){
+            return res.status(403).json({
+                message:"Access Denied"
+            });
+        }
         if(!note){
             return res.status(404).json({
                 message:"Note not found"
@@ -76,6 +89,11 @@ const deleteNote = async (req,res) =>{
         if(!note){
             return res.status(404).json({
                 message:"Note not found"
+            });
+        }
+        if(note.owner.toString()!== req.user.id){
+            return res.status(403).json({
+                message:"Access Denied"
             });
         }
         await note.deleteOne();
